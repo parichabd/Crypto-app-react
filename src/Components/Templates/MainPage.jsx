@@ -14,7 +14,6 @@ function MainPage() {
   }, []);
   return (
     <div>
-      <p>mainPage</p>
       <CoinChart coins={coins} />
     </div>
   );
