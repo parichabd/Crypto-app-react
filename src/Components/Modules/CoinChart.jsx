@@ -1,25 +1,31 @@
+import {PropagateLoader} from "react-spinners"
+
 import chartDown from "../../assets/chart-down.svg";
 import chartUp from "../../assets/chart-up.svg";
-function CoinChart({ coins }) {
+function CoinChart({ coins, isloading }) {
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Coin</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>24h</th>
-            <th>Total Volume</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {coins.map((coin) => (
-            <TableRow coin={coin} key={coin.id} />
-          ))}
-        </tbody>
-      </table>
+      {isloading ? (
+        <PropagateLoader color="#3587c9" size={11}/>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Coin</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>24h</th>
+              <th>Total Volume</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {coins.map((coin) => (
+              <TableRow coin={coin} key={coin.id} />
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
@@ -27,14 +33,16 @@ function CoinChart({ coins }) {
 export default CoinChart;
 
 const TableRow = ({
-  coin: {image,
-  symbol,
-  name,
-  current_price,
-  price_change_percentage_24h: price_change,
-  total_volume,
-  price_change_24h,
-  id,}
+  coin: {
+    image,
+    symbol,
+    name,
+    current_price,
+    price_change_percentage_24h: price_change,
+    total_volume,
+    price_change_24h,
+    id,
+  },
 }) => {
   return (
     <tr>
