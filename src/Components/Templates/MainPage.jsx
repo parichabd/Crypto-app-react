@@ -5,9 +5,12 @@ import { getApi } from "../../Services/CryptoApi";
 function MainPage() {
   const [coins, setCoins] = useState([]);
   useEffect(() => {
-    fetch(getApi())
-      .then((res) => res.json())
-      .then((json) => setCoins(json));
+    const getDataApi = async () => {
+      const res = await fetch(getApi());
+      const json = await res.json();
+      setCoins(json);
+    };
+    getDataApi();
   }, []);
   return (
     <div>
