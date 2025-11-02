@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchApi } from "../../Services/CryptoApi";
 import { FadeLoader } from "react-spinners";
+import styles from "./searchCurrency.module.css"
 
 function SearchCurenncy({ currency, setCurrency }) {
   const [search, setSearch] = useState("");
@@ -41,7 +42,7 @@ function SearchCurenncy({ currency, setCurrency }) {
     return () => controller.abort();
   }, [search]);
   return (
-    <div>
+    <div className={styles.searchBox}>
       <input
         type="text"
         placeholder="Search coin..."
@@ -56,7 +57,7 @@ function SearchCurenncy({ currency, setCurrency }) {
       <span style={{ marginLeft: "10px", fontWeight: "bold" }}>
         {symbols[currency]}
       </span>
-      <div>
+      <div className={styles.searchResault}>
         {isLoading && <FadeLoader color="#3587c9" size={5} />}
         <ul>
           {coins.map((coin) => (
