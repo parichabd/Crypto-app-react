@@ -4,6 +4,7 @@ import chartDown from "../../assets/chart-down.svg";
 import chartUp from "../../assets/chart-up.svg";
 
 import styles from "./coinChart.module.css"
+import { chartApi } from "../../Services/CryptoApi";
 function CoinChart({ coins, isloading , currency , setChart}) {
   return (
     <div className={styles.container}>
@@ -36,6 +37,7 @@ export default CoinChart;
 
 const TableRow = ({
   coin: {
+    id,
     image,
     symbol,
     name,
@@ -43,12 +45,20 @@ const TableRow = ({
     price_change_percentage_24h: price_change,
     total_volume,
     price_change_24h,
-    id,
   },
   currency,
   setChart
 }) => {
-  const showHandler = () => {setChart(true)}
+  const showHandler = async () => {
+    try {
+      const res = await fetch(chartApi(id))
+      const json = await res.json()
+      console.log(json);
+      setChart(json)
+    } catch (error) {
+      setChart(null)
+    }
+  }
   const currencySymbols = {
   usd: "$",
   eur: "€",

@@ -7,5 +7,7 @@ function getApi(page, currency) {
 function searchApi(query) {
   return `${MAIN_URL}/search?query=${query}&x-cg-demo-api-key=${API_KEY}`;
 }
-
-export { getApi , searchApi };
+function chartApi(coin) {
+  return `${MAIN_URL}/coins/${coin}/market_chart?vs_currency=usd&days=7`;
+}
+export { getApi, searchApi , chartApi };

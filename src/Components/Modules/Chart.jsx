@@ -1,5 +1,6 @@
 import styles from "./chart.module.css";
-function Chart({ Chart, setChart }) {
+function Chart({ chart, setChart }) {
+  console.log(chart);
   return (
     <div className={styles.container}>
       <span
