@@ -1,15 +1,15 @@
-import {PropagateLoader} from "react-spinners"
+import { PropagateLoader } from "react-spinners";
 
 import chartDown from "../../assets/chart-down.svg";
 import chartUp from "../../assets/chart-up.svg";
 
-import styles from "./coinChart.module.css"
+import styles from "./coinChart.module.css";
 import { chartApi } from "../../Services/CryptoApi";
-function CoinChart({ coins, isloading , currency , setChart}) {
+function CoinChart({ coins, isloading, currency, setChart }) {
   return (
     <div className={styles.container}>
       {isloading ? (
-        <PropagateLoader color="#3587c9" size={11}/>
+        <PropagateLoader color="#3587c9" size={11} />
       ) : (
         <table className={styles.table}>
           <thead>
@@ -24,7 +24,12 @@ function CoinChart({ coins, isloading , currency , setChart}) {
           </thead>
           <tbody>
             {coins.map((coin) => (
-              <TableRow coin={coin} key={coin.id}  currency={currency} setChart={setChart}/>
+              <TableRow
+                coin={coin}
+                key={coin.id}
+                currency={currency}
+                setChart={setChart}
+              />
             ))}
           </tbody>
         </table>
@@ -35,8 +40,8 @@ function CoinChart({ coins, isloading , currency , setChart}) {
 
 export default CoinChart;
 
-const TableRow = ({
-  coin: {
+const TableRow = ({ coin, currency, setChart }) => {
+  const {
     id,
     image,
     symbol,
@@ -45,26 +50,23 @@ const TableRow = ({
     price_change_percentage_24h: price_change,
     total_volume,
     price_change_24h,
-  },
-  currency,
-  setChart
-}) => {
+  } = coin;
   const showHandler = async () => {
     try {
-      const res = await fetch(chartApi(id))
-      const json = await res.json()
-      console.log(json);
-      setChart(json)
+      const res = await fetch(chartApi(id));
+      const json = await res.json();
+      console.log();
+      setChart({...json , coin});
     } catch (error) {
       console.log(error.message);
-      setChart(null)
+      setChart(null);
     }
-  }
+  };
   const currencySymbols = {
-  usd: "$",
-  eur: "€",
-  jpy: "¥",
-};
+    usd: "$",
+    eur: "€",
+    jpy: "¥",
+  };
   return (
     <tr>
       <td>
@@ -74,8 +76,13 @@ const TableRow = ({
         </div>
       </td>
       <td>{name}</td>
-      <td>{currencySymbols[currency]}{current_price.toLocaleString()}</td>
-      <td className={price_change > 0 ? styles.succsess : styles.error }>{price_change.toFixed(2)}%</td>
+      <td>
+        {currencySymbols[currency]}
+        {current_price.toLocaleString()}
+      </td>
+      <td className={price_change > 0 ? styles.succsess : styles.error}>
+        {price_change.toFixed(2)}%
+      </td>
       <td>{total_volume.toLocaleString()}</td>
       <td>
         <img src={price_change_24h > 0 ? chartUp : chartDown} alt={id} />
