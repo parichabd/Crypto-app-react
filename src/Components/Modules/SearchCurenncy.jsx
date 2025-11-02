@@ -12,24 +12,27 @@ function SearchCurenncy({ currency, setCurrency }) {
 
   useEffect(() => {
     const controller = new AbortController();
+    setCoins([])
     if (!search) return;
     const apiSearch = async () => {
       try {
-        const res = await fetch(searchApi(search) , {signal :controller.signal});
-      const json = await res.json();
-      console.log(json);
-      if (json.coins) {setCoins(json.coins)}else{
-        alert(json.status.error_message)
-      };
+        const res = await fetch(searchApi(search), {
+          signal: controller.signal,
+        });
+        const json = await res.json();
+        console.log(json);
+        if (json.coins) {
+          setCoins(json.coins);
+        } else {
+          alert(json.status.error_message);
+        }
       } catch (error) {
-        if(error.name !== "AbortError")
-          alert(error.message)
+        if (error.name !== "AbortError") alert(error.message);
       }
-      
     };
 
     apiSearch();
-    return () => controller.abort()
+    return () => controller.abort();
   }, [search]);
   return (
     <div>
@@ -47,6 +50,16 @@ function SearchCurenncy({ currency, setCurrency }) {
       <span style={{ marginLeft: "10px", fontWeight: "bold" }}>
         {symbols[currency]}
       </span>
+      <div>
+        <ul>
+          {coins.map((coin) => (
+            <li key={coin.id}>
+              <img src={coin.thumb} alt={coin.name} />
+              <p>{coin.name}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
