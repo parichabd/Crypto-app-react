@@ -19,8 +19,8 @@ function MainPage() {
   }, [page]);
   return (
     <div>
-      <Pagination page={page} setPage={setPage}/>
       <CoinChart coins={coins} isloading={isLoading} />
+      <Pagination page={page} setPage={setPage}/>
     </div>
   );
 }
