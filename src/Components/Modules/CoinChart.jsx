@@ -56,6 +56,7 @@ const TableRow = ({
       console.log(json);
       setChart(json)
     } catch (error) {
+      console.log(error.message);
       setChart(null)
     }
   }

@@ -1,6 +1,9 @@
+import { useState } from "react";
+import { converDta } from "../../Helper/converDta";
 import styles from "./chart.module.css";
 function Chart({ chart, setChart }) {
-  console.log(chart);
+  const [type, setType] = useState("prices");
+  console.log(converDta(chart,type));
   return (
     <div className={styles.container}>
       <span
