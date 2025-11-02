@@ -2,25 +2,28 @@ import { useEffect, useState } from "react";
 import CoinChart from "../Modules/CoinChart";
 import { getApi } from "../../Services/CryptoApi";
 import Pagination from "../Modules/Pagination";
+import SearchCurenncy from "../Modules/SearchCurenncy";
 
 function MainPage() {
   const [coins, setCoins] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [currency, setCurrency] = useState("usd");
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const getDataApi = async () => {
-      const res = await fetch(getApi(page));
+      const res = await fetch(getApi(page, currency));
       const json = await res.json();
       setCoins(json);
       setIsLoading(false);
     };
     getDataApi();
-  }, [page]);
+  }, [page, currency]);
   return (
     <div>
-      <CoinChart coins={coins} isloading={isLoading} />
-      <Pagination page={page} setPage={setPage}/>
+      <SearchCurenncy currency={currency} setCurrency={setCurrency} />
+      <CoinChart coins={coins} isloading={isLoading} currency={currency} />
+      <Pagination page={page} setPage={setPage} />
     </div>
   );
 }
