@@ -2,13 +2,15 @@ import {PropagateLoader} from "react-spinners"
 
 import chartDown from "../../assets/chart-down.svg";
 import chartUp from "../../assets/chart-up.svg";
+
+import styles from "./coinChart.module.css"
 function CoinChart({ coins, isloading }) {
   return (
-    <div>
+    <div className={styles.container}>
       {isloading ? (
         <PropagateLoader color="#3587c9" size={11}/>
       ) : (
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Coin</th>
@@ -47,14 +49,14 @@ const TableRow = ({
   return (
     <tr>
       <td>
-        <div>
+        <div className={styles.symbol}>
           <img src={image} alt="" />
           <span>{symbol.toUpperCase()}</span>
         </div>
       </td>
       <td>{name}</td>
       <td>${current_price.toLocaleString()}</td>
-      <td>{price_change.toFixed(2)}%</td>
+      <td className={price_change > 0 ? styles.succsess : styles.error }>{price_change.toFixed(2)}%</td>
       <td>{total_volume.toLocaleString()}</td>
       <td>
         <img src={price_change_24h > 0 ? chartUp : chartDown} alt={id} />
