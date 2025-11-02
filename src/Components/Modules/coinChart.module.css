@@ -53,3 +53,15 @@
 .error {
   color: #d33636;
 }
+
+@media (max-width: 600px) {
+  .table {
+    display: block;
+    overflow-y: scroll;
+  }
+
+  .table td,
+  .table th {
+    padding: 0 10px;
+  }
+}
