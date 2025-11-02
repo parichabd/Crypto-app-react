@@ -4,7 +4,7 @@ import chartDown from "../../assets/chart-down.svg";
 import chartUp from "../../assets/chart-up.svg";
 
 import styles from "./coinChart.module.css"
-function CoinChart({ coins, isloading , currency}) {
+function CoinChart({ coins, isloading , currency , setChart}) {
   return (
     <div className={styles.container}>
       {isloading ? (
@@ -23,7 +23,7 @@ function CoinChart({ coins, isloading , currency}) {
           </thead>
           <tbody>
             {coins.map((coin) => (
-              <TableRow coin={coin} key={coin.id}  currency={currency} />
+              <TableRow coin={coin} key={coin.id}  currency={currency} setChart={setChart}/>
             ))}
           </tbody>
         </table>
@@ -45,9 +45,10 @@ const TableRow = ({
     price_change_24h,
     id,
   },
-  currency
-}
-) => {
+  currency,
+  setChart
+}) => {
+  const showHandler = () => {setChart(true)}
   const currencySymbols = {
   usd: "$",
   eur: "€",
@@ -56,7 +57,7 @@ const TableRow = ({
   return (
     <tr>
       <td>
-        <div className={styles.symbol}>
+        <div className={styles.symbol} onClick={showHandler}>
           <img src={image} alt="" />
           <span>{symbol.toUpperCase()}</span>
         </div>
