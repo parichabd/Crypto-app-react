@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { searchApi } from "../../Services/CryptoApi";
+import { FadeLoader } from "react-spinners";
 
 function SearchCurenncy({ currency, setCurrency }) {
   const [search, setSearch] = useState("");
   const [coins, setCoins] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const symbols = {
     usd: "$",
     eur: "€",
@@ -12,8 +14,11 @@ function SearchCurenncy({ currency, setCurrency }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    setCoins([])
-    if (!search) return;
+    setCoins([]);
+    if (!search) {
+      setIsLoading(false);
+      return;
+    }
     const apiSearch = async () => {
       try {
         const res = await fetch(searchApi(search), {
@@ -22,6 +27,7 @@ function SearchCurenncy({ currency, setCurrency }) {
         const json = await res.json();
         console.log(json);
         if (json.coins) {
+          setIsLoading(false);
           setCoins(json.coins);
         } else {
           alert(json.status.error_message);
@@ -30,7 +36,7 @@ function SearchCurenncy({ currency, setCurrency }) {
         if (error.name !== "AbortError") alert(error.message);
       }
     };
-
+    setIsLoading(true);
     apiSearch();
     return () => controller.abort();
   }, [search]);
@@ -51,6 +57,7 @@ function SearchCurenncy({ currency, setCurrency }) {
         {symbols[currency]}
       </span>
       <div>
+        {isLoading && <FadeLoader color="#3587c9" size={5} />}
         <ul>
           {coins.map((coin) => (
             <li key={coin.id}>
