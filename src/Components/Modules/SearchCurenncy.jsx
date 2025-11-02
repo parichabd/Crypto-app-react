@@ -11,14 +11,25 @@ function SearchCurenncy({ currency, setCurrency }) {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
     if (!search) return;
     const apiSearch = async () => {
-      const res = await fetch(searchApi(search));
+      try {
+        const res = await fetch(searchApi(search) , {signal :controller.signal});
       const json = await res.json();
-      if (json.coins) setCoins(json.coins);
+      console.log(json);
+      if (json.coins) {setCoins(json.coins)}else{
+        alert(json.status.error_message)
+      };
+      } catch (error) {
+        if(error.name !== "AbortError")
+          alert(error.message)
+      }
+      
     };
 
     apiSearch();
+    return () => controller.abort()
   }, [search]);
   return (
     <div>
