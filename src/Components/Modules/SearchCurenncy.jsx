@@ -49,7 +49,7 @@ function SearchCurenncy({ currency, setCurrency }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+      <select className={styles.selectBox} value={currency} onChange={(e) => setCurrency(e.target.value)}>
         <option value="usd">USD</option>
         <option value="eur">EUR</option>
         <option value="jpy">JYN</option>
