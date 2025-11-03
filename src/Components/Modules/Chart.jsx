@@ -11,9 +11,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
 function Chart({ chart, setChart }) {
   const [type, setType] = useState("prices");
+
+  const rtpeHandler = (e) => {
+    if (e.target.tagName === "BUTTON") {
+      const type = e.target.innerText.toLowerCase().replace(" ", "_");
+      setType(type);
+      console.log(type);
+    }
+  };
+
   console.log(converDta(chart, type));
+
   return (
     <div className={styles.container}>
       <span
@@ -24,16 +35,18 @@ function Chart({ chart, setChart }) {
       >
         X
       </span>
+
       <div className={styles.chart}>
         <div className={styles.name}>
           <img src={chart.coin.image} alt="" />
           <p>{chart.coin.name}</p>
         </div>
+
         <div className={styles.graph}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart width={400} height={400} data={converDta(chart, type)}>
               <Line
-                trye="monotone"
+                type="monotone"
                 dataKey={type}
                 stroke="#3874ff"
                 strokeWidth="2px"
@@ -46,15 +59,24 @@ function Chart({ chart, setChart }) {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div className={styles.types} >
-          <button>Prices</button>
-          <button>Market Cpas</button>
-          <button>Total Volumes</button>
+
+        <div className={styles.types} onClick={rtpeHandler}>
+          <button className={type === "prices" ? styles.selected : null}>
+            Prices
+          </button>
+          <button className={type === "market_cap" ? styles.selected : null}>
+            Market Caps
+          </button>
+
+          <button className={type === "total_volumes" ? styles.selected : null}>
+            Total Volumes
+          </button>
         </div>
+
         <div className={styles.details}>
           <div>
             <p>Prices : </p>
-            <span>${chart.coin.ath }</span>
+            <span>${chart.coin.ath}</span>
           </div>
           <div>
             <p>ATH : </p>
