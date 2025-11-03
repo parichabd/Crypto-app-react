@@ -1,9 +1,12 @@
+import Layout from "./Components/Layout/Layout";
 import MainPage from "./Components/Templates/MainPage";
 
 function App() {
   return (
     <>
-      <MainPage />
+      <Layout>
+        <MainPage/>
+      </Layout>
     </>
   );
 }
